@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#define MAX 100
+
 void writeToFile() {
-    FILE *f = fopen("input.txt", "w");
+    FILE *f = fopen("text.txt", "w");
     char c;
     while((c = getchar()) != '#') {
         fputc(c, f);
@@ -10,53 +10,25 @@ void writeToFile() {
     fclose(f);
 }
 
-void printFile() {
-
-    FILE *f=fopen("output.txt","r");
-    char line[100];
-    while(!feof(f)){
-        fgets(line,100,f);
-        if (feof(f))
-            break;
-        printf("%s",line);
-    }
-    fclose(f);
-}
-
 int main() {
     writeToFile();
-    FILE *dat = fopen("input.txt", "r");
-    int n;
-    fscanf(dat, "%d", &n);
-    int a[n][n], zbirD = 0;
-    for(int i = 0; i < n; i++)
-    {
-        for(int j = 0; j < n; j++)
-        {
-            fscanf(dat, "%d", &a[i][j]);
-            if(i == j)
-            {
-                zbirD += a[i][j];
-            }
-        }
+    FILE *f;
+    char c;
+    int mali=0,golemi=0,vkupno=0;
+    if((f=fopen("text.txt","r"))==NULL){
+        printf("Ne mozhe da se otvori datotekata");
+        return -1;
     }
-    fclose(dat);
-
-    FILE *dat2 = fopen("output.txt", "w");
-    for(int i = 0; i < n; i++)
-    {
-        for(int j = 0; j < n; j++)
-        {
-            if(j > i)
-            {
-                fprintf(dat2, "%03d ", zbirD);
-            }
-            else fprintf(dat2, "    ");
+    while((c=getc(f))!=EOF){
+        if(islower(c)){
+            mali++; vkupno++;
         }
-        fprintf(dat2, "\n");
-
+        
+        else if(isupper(c)){
+            golemi++; vkupno++;
+        }
+        c++;
     }
-    fclose(dat2);
-    printFile();
-    return 0;
+    printf("%.4f\n%.4f",(float)golemi/(float)vkupno,(float)mali/(float)vkupno);
+    // vasiot kod ovde
 }
